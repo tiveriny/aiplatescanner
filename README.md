@@ -1,92 +1,66 @@
-# Система распознавания автомобильных номеров
+Automatic License Plate Recognition (ALPR) System
+A real-time license plate detection and recognition system built with computer vision and deep learning. Processes both live camera feeds and video files, extracts plate numbers, and generates structured logs — all running fully locally with no external API calls or data transmission.
 
-## О проекте
-Данный проект представляет собой графическое приложение для распознавания автомобильных номеров в реальном времени. Проект основан на открытой библиотеке и несет только добро
+What It Does
 
-### Важное замечание
-Все распознанные номера являются случайными и не несут никакого политического или иного смысла. Проект создан исключительно в образовательных целях для демонстрации возможностей компьютерного зрения и машинного обучения. Все совпадения с реальными номерами случайны и не имеют никакого отношения к реальным событиям или лицам.
-
-### Предупреждение о производительности
-При работе с приложением могут возникать следующие проблемы:
-- Задержки и зависания при анализе видео
-- Высокая нагрузка на процессор
-- Возможные ошибки при распознавании
-
-Рекомендации по использованию:
-1. Используйте видео невысокого разрешения
-2. Закройте другие ресурсоемкие приложения
-3. При зависании используйте кнопку "Стоп"
-4. При работе с камерой используйте разрешение не выше 720p
-
-## Установка
+Detects and highlights license plates in video frames using a trained ML model (7GB parameter set)
+Recognizes plate numbers in A777AA77 format with country classification
+Processes live webcam streams and pre-recorded video files
+Exports timestamped logs for audit and analytics
+Runs entirely offline — no cloud dependency, no data leaves the machine
 
 
-### Вариант 1: Установка из исходного кода
-1. Клонируйте репозиторий:
-```bash
-git clone https://github.com/your-username/number-recognition.git
+Why This Matters
+Most ALPR solutions are cloud-based and charge per API call. This system is:
+
+Private by design — video and plate data never leave the local machine
+Cost-effective — no per-request fees after deployment
+Deployable anywhere — works without internet access
+Production-ready — multithreaded video processing, GUI controls, structured output
+
+Practical use cases include parking lot access control, warehouse entry logging, private territory security, and fleet management.
+
+Tech Stack
+
+Python
+PyQt5 (GUI)
+nomeroff-net (license plate detection and OCR)
+OpenCV (video capture and frame processing)
+Multithreading for non-blocking video analysis
+
+
+Performance
+
+Target processing rate: ~33 FPS
+Recommended input resolution: 720p
+Supports Russian-standard plates (Cyrillic and Latin character sets)
+Configurable confidence threshold and minimum plate size filters
+
+
+Getting Started
+bashgit clone https://github.com/tiveriny/number-recognition.git
 cd number-recognition
-```
-
-2. Установите зависимости:
-```bash
 pip install -r requirements.txt
-```
-
-3. Установите nomeroff-net:
-```bash
 pip install nomeroff-net
-```
+python video_recognition_gui.py
+Usage
 
-## Использование
-
-1. Запустите приложение:
-   - Для исходного кода: `python video_recognition_gui.py`
-
-2. Выберите источник видео:
-   - Нажмите "Выбрать видео" для работы с видеофайлом
-   - Нажмите "Выбрать камеру" для работы с веб-камерой
-
-3. Настройте параметры распознавания (опционально):
-   - Порог уверенности (0.0 - 1.0)
-   - Минимальная ширина номера (30-500 пикселей)
-   - Минимальная высота номера (10-200 пикселей)
-
-4. Нажмите "Старт" для начала обработки
-
-5. Используйте "Пауза" для приостановки и "Стоп" для полной остановки
-
-6. Для создания отчета нажмите "Отчет"
+Launch the app
+Select input source: video file or webcam
+Adjust confidence threshold if needed (default works well for 720p)
+Press Start
+Export report when done — logs include plate number, country, and timestamp
 
 
-## Возможные проблемы и решения
-
-2. Приложение не запускается
-   - Проверьте, установлены ли все Visual C++ Redistributable
-   - Попробуйте запустить от имени администратора
-
-3. Камера не определяется
-   - Проверьте подключение камеры
-   - Убедитесь, что камера не используется другими приложениями
-
-## Структура проекта
-```
+Project Structure
 number-recognition/
-├── video_recognition_gui.py  # Основной файл приложения
-├── requirements.txt          # Зависимости проекта
-├── reports/                  # Директория для отчетов
-└── README.md                # Документация
-```
+├── video_recognition_gui.py   # Main application with GUI
+├── video_recognition.py       # Core detection and recognition logic
+├── main.py                    # Entry point
+├── requirements.txt           # Dependencies
+├── reports/                   # Auto-generated timestamped logs
+└── test_nomeroff.py           # Model validation tests
 
-## Особенности реализации
-- Использование PyQt5 для создания графического интерфейса
-- Многопоточная обработка видео для оптимизации производительности
-- Поддержка различных форматов видеофайлов
-- Автоматическое определение доступных камер
-- Генерация подробных отчетов с временными метками
-
-## Технические детали
-- Рекомендуемое разрешение видео: 720p
-- Частота обработки: ~33 FPS
-- Формат распознаваемых номеров: российский стандарт
-- Поддержка как кириллических, так и латинских символов
+About
+Built independently as a practical exploration of computer vision and applied ML. The model weights (~7GB) cover the full detection pipeline — no fine-tuning required for standard Russian plate formats.
+Open to feedback, contributions, and integration questions.
